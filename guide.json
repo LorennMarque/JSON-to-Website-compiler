@@ -1,0 +1,19 @@
+{
+  "sections": [
+    {
+      "name": "section1",
+      "parameters": [
+        "title",
+        "description"
+      ]
+    },
+    {
+      "name": "section2",
+      "parameters": []
+    },
+    {
+      "name": "section3",
+      "parameters": []
+    }
+  ]
+}

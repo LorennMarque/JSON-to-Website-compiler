@@ -1,0 +1,15 @@
+{
+  "sections": [
+    {
+      "name": "section1",
+      "title": "Bienvenido!",
+      "description": "Test 1 description"
+    },
+    {
+      "name": "section2"
+    },
+    {
+      "name": "section3"
+    }
+  ]
+}

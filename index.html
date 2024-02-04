@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Section Selector</title>
+  </head>
+  <body>
+    <label for="sectionSelect">Select a Section:</label>
+    <select id="sectionSelect"></select>
+
+    <button onclick="addSection()">Add Section</button>
+
+    <div id="formContainer"></div>
+
+    <script>
+      // Function to load and parse JSON file
+      function loadJSON(callback) {
+        var xobj = new XMLHttpRequest();
+        xobj.overrideMimeType("application/json");
+        xobj.open("GET", "guide.json", true);
+        xobj.onreadystatechange = function () {
+          if (xobj.readyState == 4 && xobj.status == "200") {
+            callback(JSON.parse(xobj.responseText));
+          }
+        };
+        xobj.send(null);
+      }
+
+      // Function to populate the select menu with sections
+      function populateSelectMenu(guide) {
+        var selectMenu = document.getElementById("sectionSelect");
+
+        guide.sections.forEach(function (section) {
+          var option = document.createElement("option");
+          option.value = section.name;
+          option.text = section.name;
+          selectMenu.add(option);
+        });
+      }
+
+      // Function to add a form for the selected section
+      function addSection() {
+        var selectedSection = document.getElementById("sectionSelect").value;
+        var formContainer = document.getElementById("formContainer");
+
+        loadJSON(function (guide) {
+          var section = guide.sections.find((s) => s.name === selectedSection);
+          if (section) {
+            var form = document.createElement("form");
+            form.id = "sectionForm";
+
+            section.parameters.forEach(function (parameter) {
+              var label = document.createElement("label");
+              label.textContent = parameter + ":";
+
+              var input = document.createElement("input");
+              input.type = "text";
+              input.name = parameter;
+
+              form.appendChild(label);
+              form.appendChild(input);
+            });
+
+            formContainer.innerHTML = "";
+            formContainer.appendChild(form);
+          }
+        });
+      }
+
+      // Load and populate the select menu when the page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        loadJSON(function (guide) {
+          populateSelectMenu(guide);
+        });
+      });
+    </script>
+  </body>
+</html>
